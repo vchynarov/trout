@@ -40,6 +40,8 @@ router.get('/home/:name', function(req, res) {
      res.end();
 });
 
+
+
 var handler = function(req, res) {
      router.pass(req, res);
 };
@@ -48,3 +50,18 @@ var app = http.createServer(handler);
 app.listen(8080);
 
 ```
+
+## Power of Trout ##
+trout is designed for powerful semantic RESTful api development. Here's an example.
+
+```
+router.put('/home/:name/c:marbles/r:marbleName', function(req, res) {
+   res.write("Oh hey, " + req.params.name + ". You added a: ");
+   res.write(req.params.resources.marbleName + " to your " + req.params.collections.marbles + " marbles collection");
+   res.end();
+});
+```
+
+Sending a ```PUT``` request to ```http://localhost:8001/home/viktor/reds/shinyMarble``` returns:
+
+```Oh hey, viktor. You added a: shinyMarble to your reds marbles collection```.

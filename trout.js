@@ -1,18 +1,26 @@
 function Trout() {
-    this.getRoutes = {};
-    this.getPaths = [];
-    this.postRoutes = {};
-    this.postPaths = [];
+    this.routes = {
+        get  : {},
+        post : {},
+        put  : {},
+        del  : {}
+    }
 }
 
 Trout.prototype.get = function (route, callback) {
-    this.getPaths.push(route);
-    this.getRoutes[route] = callback;
+    this.routes.get[route] = callback;
 };
 
 Trout.prototype.post = function (route, callback) {
-    this.postPaths.push(route);
-    this.postRoutes[route] = callback;
+    this.routes.post[route] = callback;
+};
+
+Trout.prototype.put = function (route, callback) {
+    this.routes.put[route] = callback;
+};
+
+Trout.prototype.del = function (route, callback) {
+    this.routes.del[route] = callback;
 };
 
 Trout.prototype.errorPage404 = function (req, res) {
@@ -28,7 +36,6 @@ Trout.prototype.errorPage404 = function (req, res) {
  * 
  */
 Trout.prototype.pass = function (req, res) {
-    console.log(req.method);
     // Need to breakup route delimits with question mark
     // to prevent parsing URL parameters
     var viewFunction = this.errorPage404;
@@ -37,18 +44,19 @@ Trout.prototype.pass = function (req, res) {
         "r": {},
         "c": {}
     };
-    switch (req.method) {
-    case ("GET"):
-        var matchedRoute = this.existsRoute(req.url, "getRoutes");
-        if (matchedRoute) {
-            viewFunction = this.getRoutes[matchedRoute.routeName];
-            routeParameters = matchedRoute.routeParameters;
-        }
-        break;
-    case "POST":
-        console.log("is POST request");
-        break;
+    var methodMap = {
+        "GET": "get",
+        "POST": "post",
+        "DELETE": "del",
+        "PUT": "put"
+    };
+    var method = methodMap[req.method];
+    matchedRoute = this.existsRoute(req.url, method);
+    if (matchedRoute) {
+        viewFunction = this.routes[method][matchedRoute.routeName];
+        routeParameters = matchedRoute.routeParameters;
     }
+    
     req = this.populateRequestParameters(req, routeParameters);
     viewFunction(req, res);
     //res.write('testing the passing functionality');
@@ -79,8 +87,8 @@ Trout.prototype.populateRequestParameters = function (req, routeParameters) {
  *
  *
  */
-Trout.prototype.existsRoute = function (passedRoute, routeArray) {
-    var routeNames = Object.keys(this[routeArray]);
+Trout.prototype.existsRoute = function (passedRoute, method) {
+    var routeNames = Object.keys(this.routes[method]);
     var length = routeNames.length;
     var i, routeName, validParameters, routeData;
     for (i = 0; i < length; i += 1) {
