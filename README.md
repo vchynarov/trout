@@ -40,8 +40,6 @@ router.get('/home/:name', function(req, res) {
      res.end();
 });
 
-
-
 var handler = function(req, res) {
      router.pass(req, res);
 };
@@ -50,6 +48,21 @@ var app = http.createServer(handler);
 app.listen(8080);
 
 ```
+
+## Powerful features ##
+
+### RESTful parameter definitions ###
+You can explicitly define parameters as part of a resource or a collection.
+Of course if you get lazy or you don't necessarily need a RESTful approach to your application
+you can just normal parameters.
+
+ * ```/c:[collectionName]``` - Accessed by ```req.params.collections.[collectionName]```
+ * ```/r:[resourceName]``` - Accessed by ```req.params.resources.[resourceName]```
+ * ```/:[normalParameter]``` - Accessed by ```req.params.[resourceName]```
+ 
+ 
+### Route Grouping ###
+*to be added...*
 
 ## Power of Trout ##
 trout is designed for powerful semantic RESTful api development. Here's an example.
