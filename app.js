@@ -1,7 +1,5 @@
 var http = require('http');
-var trout = require('./trout');
-
-var router = new trout.Trout();
+var router = require('./trout');
 
 router.get('/home', function(req, res) {
     res.write('YOU ARE HOME');

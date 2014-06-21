@@ -1,0 +1,20 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'requests' ]
+2 info using npm@1.4.9
+3 info using node@v0.10.28
+4 error Failed to parse json
+4 error Unexpected token n
+5 error File: /home/viktor/Projects/trout/package.json
+6 error Failed to parse package.json data.
+6 error package.json must be actual JSON, not just JavaScript.
+6 error
+6 error This is not a bug in npm.
+6 error Tell the package author to fix their package.json file. JSON.parse
+7 error System Linux 3.14.6-1-ARCH
+8 error command "/usr/bin/node" "/usr/bin/npm" "install" "requests"
+9 error cwd /home/viktor/Projects/trout/tests
+10 error node -v v0.10.28
+11 error npm -v 1.4.9
+12 error file /home/viktor/Projects/trout/package.json
+13 error code EJSONPARSE
+14 verbose exit [ 1, true ]

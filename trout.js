@@ -40,9 +40,9 @@ Trout.prototype.pass = function (req, res) {
     // to prevent parsing URL parameters
     var viewFunction = this.errorPage404;
     var routeParameters = {
-        "g": {},
-        "r": {},
-        "c": {}
+        __g: {},
+        __r: {},
+        __c: {}
     };
     var methodMap = {
         "GET": "get",
@@ -69,14 +69,14 @@ Trout.prototype.populateRequestParameters = function (req, routeParameters) {
         resources: {},
         collections: {}
     };
-    for (normalParameter in routeParameters.g) {
-        req.params[normalParameter] = routeParameters.g[normalParameter];
+    for (normalParameter in routeParameters.__g) {
+        req.params[normalParameter] = routeParameters.__g[normalParameter];
     }
-    for (resourceParameter in routeParameters.r) {
-        req.params.resources[resourceParameter] = routeParameters.r[resourceParameter];
+    for (resourceParameter in routeParameters.__r) {
+        req.params.resources[resourceParameter] = routeParameters.__r[resourceParameter];
     }
-    for (collectionParameter in routeParameters.c) {
-        req.params.collections[collectionParameter] = routeParameters.c[collectionParameter];
+    for (collectionParameter in routeParameters.__c) {
+        req.params.collections[collectionParameter] = routeParameters.__c[collectionParameter];
     }
     return req;
 };
@@ -133,9 +133,9 @@ Trout.prototype.getRouteParameters = function (passedRoute, savedRoute) {
         return false;
     }
     var parameters = {
-        "g": {},
-        "r": {},
-        "c": {}
+        __g : {},
+        __c : {},
+        __r : {}
     };
     var i, currentPassedToken, currentSavedToken, parameterTokens, parameterTokensLength;
     var compareToken, parameterCategory, parameterName;
@@ -156,11 +156,18 @@ Trout.prototype.getRouteParameters = function (passedRoute, savedRoute) {
             parameterCategory = parameterTokens[0];
             parameterName = parameterTokens[1];
             if (parameterCategory === "") {
-                parameterCategory = "g";
+                parameterCategory = '__g';
+            }
+            else if (parameterCategory === "r") {
+                parameterCategory = '__r';
+            }
+            else if (parameterCategory === "c") {
+                parameterCategory = '__c';
             }           
             parameters[parameterCategory][parameterName] = currentPassedToken;
         }
     }
     return parameters;
 };
-module.exports.Trout = Trout;
+router = new Trout();
+module.exports = router;
