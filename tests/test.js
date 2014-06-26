@@ -22,16 +22,18 @@ var TroutTest = {
      
     initHandlers : function() {
         var _class = this;
+        var currentCase;
         router.get('/home/:name', function(req, res) {
-             //_class.testCurrentCase("single_param_match");
-            _class.testEqual(req.params.name, 'viktor');
+            currentCase = "single_params_match";
+            _class.testEqual(req.params.name, 'viktor', currentCase, "name is Viktor");
             res.end();
         });
         
         router.put('/home/:name/c:marbles/r:marbleName', function(req, res) {
-            _class.testEqual(req.params.name, 'robert');
-            _class.testEqual(req.params.collections.marbles, 'reds');
-            _class.testEqual(req.params.resources.marbleName, 'the-shiny-marble');
+            currentCase = "marble_test";
+            _class.testEqual(req.params.name, 'robert', currentCase, "name is Robert");
+            _class.testEqual(req.params.collections.marbles, 'reds', currentCase, "red marble collection");
+            _class.testEqual(req.params.resources.marbleName, 'the-shiny-marble', currentCase, "shiny marble!");
             res.end();
         });
     },

@@ -7,19 +7,29 @@ var FAILED = false;
 
 var ColourPrint = {
     RED_FG: "\x1b[31m",
+    RED_BG: "\x1b[41m",
     GREEN_FG: "\x1b[32m",
-    YELLOW_BG : "\x1b[43m",
+    GREEN_BG: "\x1b[42m",
+    YELLOW_FG : "\x1b[33m",
     
     success: function(string) {
         this.printMessage(this.GREEN_FG, string);
     },
     
+    testPassed : function(string) {
+        this.printMessage(this.GREEN_BG, string);
+    },
+    
+    testFailed : function(string) {
+        this.printMessage(this.RED_BG, string);
+    },
+    
     error : function(string) {
-        this.printMessage(this.RED_FG, string);
+        this.printMessage(this.RED_FG, "\t" + string);
     },
     
     errorDetails : function(string) {
-        this.printMessage(this.YELLOW_BG, string);
+        this.printMessage(this.YELLOW_FG, "\t" + string);
     },
     
     printMessage : function(COLOR, message) {
@@ -59,6 +69,7 @@ WebTestTool.prototype.printError = function(e) {
 }
 
 WebTestTool.prototype.testRequest = function(method, url) {
+    this.incrementSubCase();
     var _class = this;
     var methodMap = {
         "get": function(url) {
@@ -79,18 +90,25 @@ WebTestTool.prototype.resetSubCase = function() {
     this.currentSubCase = 1;
 }
 
-WebTestTool.prototype.testEqual = function(testValue, goodValue) {
+WebTestTool.prototype.testEqual = function(testValue, goodValue, testCase, subCase) {
     var testStatus;
+    var error = null;
     try {
         assert.equal(testValue, goodValue);
         testStatus = PASSED;
-        console.log("\tCurrent test case: " + this.currentTestCase + " SubCase: " + this.currentSubCase);
     }
     catch (e) {
         testStatus = FAILED;
-        this.printError(e);
+        error = e;
     }
-    this.incrementSubCase();
+    var logString = util.format("(%s): %s", testCase, subCase);
+    if (testStatus) {
+        ColourPrint.success(logString);
+    }
+    else {
+        ColourPrint.testFailed(logString);
+        this.printError(error);
+    }
     this.requestCounter.increment(testStatus);
 };
 
@@ -101,22 +119,18 @@ WebTestTool.prototype.testCurrentCase = function(queryCase) {
 WebTestTool.prototype.run = function() {
     var _class = this;
     this.setupProcedure();
+    console.log("\nStarting Tests...\n");
     var testCases = this.testCases;
     for (testCase in testCases) {
-        _class.currentTestCase = testCase;
         if (testCases.hasOwnProperty(testCase)) {
             testCases[testCase]();
-            _class.incrementSubCase();
-            console.log("Currently Testing: " + testCase);
-            _class.resetSubCase();
         }
-        
-        
+        _class.resetSubCase();
     }
 };
 
 WebTestTool.prototype.summary = function() {
-     console.log("Finished running through test cases.");
+     console.log("\n\nFinished running through test cases.");
      var statsString = util.format("Succesfully passed: %s/%s.", this.passedTests, this.totalTests);
      if ( this.passedTests != this.totalTests) {
         ColourPrint.error(statsString);

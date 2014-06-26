@@ -26,9 +26,6 @@ simplifying development.
 
 ## Getting Started ##
 
-**THIS IS AN EXTREMELY EARLY RELEASE NOT YET PACKAGED AS A NODE APP. 
-  Please disregard this repository for use until it is available via NPM.**
-
 ### Sample Application ###
 ```
 var http = require('http');
@@ -85,6 +82,6 @@ router.put('/home/:name/c:marbles/r:marbleName', function(req, res) {
 });
 ```
 
-Sending a ```PUT``` request to ```http://localhost:8001/home/viktor/reds/shinyMarble``` returns:
+Sending a ```PUT``` request to ```http://localhost:8001/home/dude/reds/shinyMarble``` returns:
 
-```Oh hey, viktor. You added a: shinyMarble to your reds marbles collection```.
+```Oh hey, dude. You added a: shinyMarble to your reds marbles collection```.
