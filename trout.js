@@ -27,7 +27,7 @@ Trout.prototype.del = function (route, callback) {
 
 Trout.prototype.errorPage404 = function (req, res) {
     res.writeHead(404, {"Content-Type": "text/plain"});
-    res.write("You dun fucked up!");
+    res.write("404 Page Not Found");
     res.end();
 };
 

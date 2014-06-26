@@ -29,8 +29,7 @@ simplifying development.
 ### Sample Application ###
 ```
 var http = require('http');
-var trout = require('./trout');
-var router = new trout.Trout();
+var router = require('trout');
 
 router.get('/home/:name', function(req, res) {
      res.write("Hello there, " + req.params.name);

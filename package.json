@@ -1,3 +1,26 @@
 {
-    "name" : "trout"
+    "name" : "trout",
+    "version": "0.1.4",
+    "main": "./trout",
+    "description": "Semantic Node router, nested groups and organized paramaters",
+    "dependencies": {
+        
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/vchynarov/trout"
+    },
+    "keywords": [
+        "router",
+        "restful",
+        "api",
+        "REST",
+        "routes",
+        "url"
+    ],
+    "author": {
+        "name" : "Viktor Chynarov",
+        "email": "viktor.chynarov@gmail.com",
+        "url": "http://vchynarov.com"
+    }
 }
