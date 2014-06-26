@@ -23,8 +23,16 @@ var TroutTest = {
     initHandlers : function() {
         var _class = this;
         router.get('/home/:name', function(req, res) {
-             _class.testCurrentCase("single_param_match");
+             //_class.testCurrentCase("single_param_match");
             _class.testEqual(req.params.name, 'viktor');
+            res.end();
+        });
+        
+        router.put('/home/:name/c:marbles/r:marbleName', function(req, res) {
+            _class.testEqual(req.params.name, 'robert');
+            _class.testEqual(req.params.collections.marbles, 'reds');
+            _class.testEqual(req.params.resources.marbleName, 'the-shiny-marble');
+            res.end();
         });
     },
     
@@ -35,7 +43,10 @@ var TroutTest = {
     testCases : {
         single_param_match : function() {
             testEngine.testRequest("get", '/home/viktor');
-            
+        },
+        
+        marble_test : function() {
+            testEngine.testRequest("put", "/home/robert/reds/the-shiny-marble");
         }
     },
 }
