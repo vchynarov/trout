@@ -1,22 +1,102 @@
 var assert = require('assert');
-var TroutTest = {
-    init: function() {
-        var _class = this;
-        this.router = require('../trout');
-        this.request = require('request');
-        var http = require('http');
-        
+var router = require('../trout');
+var request = require('request');
+var events = require('events');
+var http = require('http');
+var testListenPort = 33333;
+var testListenHost = "http://localhost:" + testListenPort;
 
-        this.currentTestCase = 1;
-        this.numFailed = 0;
-        this.numPassed = 0;
-        var handler = function(req, res) {
-            _class.router.pass(req, res);
+var handler = function(req, res) {
+        router.pass(req, res);
+}
+var testServer = http.createServer(handler);
+testServer.listen(testListenPort);
+
+var TestCounter = function(numExpectedTests) {
+    this.completedTests = 0;
+    this.numExpectedTests = numExpectedTests;
+};
+
+TestCounter.prototype = new events.EventEmitter;
+
+TestCounter.prototype.increment = function() {
+    if (this.completedTests < this.numExpectedTests) {
+        this.completedTests += 1;
+    }
+    if (this.completedTests == this.numExpectedTests) {
+        this.emit("completeTests");
+    }
+}
+
+
+function WebTestTool(testCases, setupProcedure) {
+    this.testCases = testCases;
+    this.setupProcedure = setupProcedure;
+    this.currentTestCase = "";
+    this.currentSubCase = 1;
+    this.numFailed = 0;
+    this.numPassed = 0;
+    this.requestCounter = new TestCounter(2);
+    this.requestCounter.on("completeTests", this.summary);
+}
+
+WebTestTool.prototype.testRequest = function(method, url) {
+    var _class = this;
+    var methodMap = {
+        "get": function(url) {
+            request.get(testListenHost + url);
         }
-        this.server = http.createServer(handler);
-        this.server.listen(33333);
-    },
-    
+    };
+    methodMap[method](url);
+};
+
+WebTestTool.prototype.incrementSubCase = function() {
+    this.currentSubCase += 1;
+};
+
+WebTestTool.prototype.resetSubCase = function() {
+    this.currentSubCase = 0;
+}
+
+WebTestTool.prototype.testEqual = function(testValue, goodValue) {
+    var _class = this;
+    try {
+        assert.equal(testValue, goodValue);
+        this.numPassed += 1;
+        console.log("\tCurrent test case: " + _class.currentTestCase + " SubCase: " + _class.currentSubCase);
+    }
+    catch (e) {
+        this.numFailed += 1;
+        console.log(e);
+    }
+    this.incrementSubCase();
+    this.requestCounter.increment();
+};
+
+WebTestTool.prototype.testCurrentCase = function(queryCase) {
+    this.testEqual(queryCase, this.currentTestCase);
+}
+
+WebTestTool.prototype.run = function() {
+    var _class = this;
+    this.setupProcedure();
+    var testCases = this.testCases;
+    for (testCase in testCases) {
+        if (testCases.hasOwnProperty(testCase)) {
+            testCases[testCase]();
+            _class.currentTestCase = testCase;
+            console.log("current test case is: " + testCase);
+            _class.resetSubCase();
+        }
+    }
+};
+
+WebTestTool.prototype.summary = function() {
+     console.log("Ran through all the testcases!");
+};
+
+
+var TroutTest = {
     clear: function() {
         for(method in router.routes) {
             console.log(router.routes);
@@ -24,57 +104,32 @@ var TroutTest = {
             console.log(router.routes);
         }
     },
-    
-    testRequest: {
-        HOST : 'http://localhost:33333',
-        
-        get : function(url) {
-            TroutTest.request.get(this.HOST + url);
-        }
-    },
-    
+     
     initHandlers : function() {
         var _class = this;
-        
-        _class.router.get('/home/:name', function(req, res) {
+        router.get('/home/:name', function(req, res) {
             _class.testEqual(req.params.name, 'viktor');
+            _class.testCurrentCase("single_param_match")
         });
     },
     
-    testEqual: function(testValue, goodValue) {
-        try {
-            assert.equal(testValue, goodValue);
-            TroutTest.numPassed += 1;
-        }
-        catch (e) {
-            this.numFailed += 1;
-            console.log(e);
-        }
-        console.log("You passed: " + TroutTest.numPassed + " tests out of: " + (TroutTest.numFailed + TroutTest.numPassed) + " total.");
-    },
-    
+    /**
+     *
+     * @global testEngine
+     */
     testCases : {
-
         single_param_match : function() {
-            TroutTest.testRequest.get('/home/viktor')
+            testEngine.testRequest("get", '/home/viktor');
+            
         }
     },
-    
-    run : function() {
-        var _class = this;
-        _class.initHandlers();
-        for (testCase in _class.testCases) {
-            console.log(testCase);
-            if (_class.testCases.hasOwnProperty(testCase)) {
-                _class.testCases[testCase]();
-                _class.currentTestCase += 1;
-            }
-        }
-
-        
-    }
 }
 
+var testEngine = new WebTestTool(TroutTest.testCases, TroutTest.initHandlers);
 
-TroutTest.init();
-TroutTest.run();
+
+
+
+
+
+testEngine.run();
