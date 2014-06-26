@@ -23,6 +23,13 @@ router.put('/home/:name/c:marbles/r:marbleName', function(req, res) {
 });
 
 router.group('/marbles', function() {
+    router.group('/rare', function() {
+        router.get('/price/r:marbleName', function(req, res) {
+            res.write("The price of " + req.params.resources.marbleName + " is one milllion dollars!");
+            res.end();
+        });
+    })
+    
     router.get('/r:marbleName', function(req, res) {
         res.write("Oooh I really like your " + req.params.resources.marbleName + " marble!");
         res.end();

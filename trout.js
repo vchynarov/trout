@@ -5,6 +5,7 @@ function Trout() {
         put  : {},
         del  : {}
     }
+    this.groups = [];
     this.groupPath = "";
 }
 
@@ -32,9 +33,11 @@ Trout.prototype.errorPage404 = function (req, res) {
 
 
 Trout.prototype.group = function(pathName, routeDeclarations) {
-    this.groupPath = pathName;
+    this.groups.push(pathName);
+    this.groupPath = this.groups.join("");
     routeDeclarations();
-    this.groupPath = "";
+    this.groups.pop();
+    this.groupPath = this.groups.join("");
 };
 /**
  * 
