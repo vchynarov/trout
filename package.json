@@ -1,6 +1,6 @@
 {
     "name" : "trout",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "main": "./trout",
     "description": "Semantic Node router, nested groups and organized paramaters",
     "dependencies": {

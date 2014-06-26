@@ -80,7 +80,7 @@ router.group('/marbles', function() {
 });
 ```
 
-## Some Examples to Get Your Started ##
+## Some Examples to Get You Started ##
 trout is designed for powerful semantic RESTful api development. Here's an example.
 
 ```
