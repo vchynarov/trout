@@ -62,7 +62,17 @@ you can just normal parameters.
  
  
 ### Route Grouping ###
-*to be added...*
+trout allows you to group routes together. In this example, you can add further paths
+to urls starting with "marbles".
+
+```
+router.group('/marbles', function() {
+    router.get('/r:marbleName', function(req, res) {
+        res.write("Oooh I really like your " + req.params.resources.marbleName + " marble!");
+        res.end();
+    })
+})
+```
 
 ## Power of Trout ##
 trout is designed for powerful semantic RESTful api development. Here's an example.

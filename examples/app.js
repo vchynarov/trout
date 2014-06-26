@@ -1,5 +1,5 @@
 var http = require('http');
-var router = require('./trout');
+var router = require('../trout');
 
 router.get('/home', function(req, res) {
     res.write('YOU ARE HOME');
@@ -20,6 +20,13 @@ router.put('/home/:name/c:marbles/r:marbleName', function(req, res) {
    res.write("Oh hey, " + req.params.name + ". You added a: ");
    res.write(req.params.resources.marbleName + " to your " + req.params.collections.marbles + " marbles collection");
    res.end();
+});
+
+router.group('/marbles', function() {
+    router.get('/r:marbleName', function(req, res) {
+        res.write("Oooh I really like your " + req.params.resources.marbleName + " marble!");
+        res.end();
+    })
 });
 
 function handler(req, res) {

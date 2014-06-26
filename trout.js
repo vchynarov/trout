@@ -5,22 +5,23 @@ function Trout() {
         put  : {},
         del  : {}
     }
+    this.groupPath = "";
 }
 
 Trout.prototype.get = function (route, callback) {
-    this.routes.get[route] = callback;
+    this.routes.get[this.groupPath + route] = callback;
 };
 
 Trout.prototype.post = function (route, callback) {
-    this.routes.post[route] = callback;
+    this.routes.post[this.groupPath + route] = callback;
 };
 
 Trout.prototype.put = function (route, callback) {
-    this.routes.put[route] = callback;
+    this.routes.put[this.groupPath + route] = callback;
 };
 
 Trout.prototype.del = function (route, callback) {
-    this.routes.del[route] = callback;
+    this.routes.del[this.groupPath + route] = callback;
 };
 
 Trout.prototype.errorPage404 = function (req, res) {
@@ -29,6 +30,12 @@ Trout.prototype.errorPage404 = function (req, res) {
     res.end();
 };
 
+
+Trout.prototype.group = function(pathName, routeDeclarations) {
+    this.groupPath = pathName;
+    routeDeclarations();
+    this.groupPath = "";
+};
 /**
  * 
  * @param req
