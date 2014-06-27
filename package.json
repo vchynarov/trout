@@ -1,14 +1,19 @@
 {
     "name" : "trout",
-    "version": "0.1.5",
-    "main": "./trout",
+    "version": "0.1.6",
+    "main": "./src/trout",
+    "license": "MIT",
     "description": "Semantic Node router, nested groups and organized paramaters",
-    "dependencies": {
-        
+    "devDependencies": {
+        "request": "*"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/vchynarov/trout"
+    },
+
+    "scripts": {
+        "test": "node tests/test.js"
     },
     "keywords": [
         "router",

@@ -1,4 +1,4 @@
-var router = require('../trout');
+var router = require('../src/trout');
 var http = require('http');
 var testtools = require('./testtools');
 var LISTEN_PORT = 33333;

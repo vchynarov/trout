@@ -1,5 +1,5 @@
 var http = require('http');
-var router = require('../trout');
+var router = require('../lib/trout');
 
 router.get('/home', function(req, res) {
     res.write('YOU ARE HOME');
