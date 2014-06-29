@@ -31,7 +31,7 @@ var TroutTest = {
         
         router.put('/home/:name/c:marbles/r:marbleName', function(req, res) {
             currentCase = "marble_test";
-            _class.testEqual(req.params.name, 'robert', currentCase, "name is Robert");
+            _class.testEqual(req.params.name, 'robrt', currentCase, "name is Robert");
             _class.testEqual(req.params.collections.marbles, 'reds', currentCase, "red marble collection");
             _class.testEqual(req.params.resources.marbleName, 'the-shiny-marble', currentCase, "shiny marble!");
             res.end();

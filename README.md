@@ -1,3 +1,5 @@
+(https://travis-ci.org/vchynarov/trout.svg?branch=master)
+
 # trout routing library for node.js #
 
 

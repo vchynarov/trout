@@ -1,4 +1,4 @@
-var router = require('../src/trout');
+var router = require('../../src/trout');
 var crypto = require('crypto');
 
 testHandlerGenerator = function(token) {

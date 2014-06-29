@@ -134,11 +134,12 @@ WebTestTool.prototype.summary = function() {
      var statsString = util.format("Succesfully passed: %s/%s.", this.passedTests, this.totalTests);
      if ( this.passedTests != this.totalTests) {
         ColourPrint.error(statsString);
+        process.exit(code=1);
      }
      else {
         ColourPrint.success(statsString);
+             process.exit(code=0)
      }
-     process.exit(code=0)
 };
 
 
