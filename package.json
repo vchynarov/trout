@@ -1,6 +1,6 @@
 {
     "name" : "trout",
-    "version": "0.1.7",
+    "version": "0.2.0",
     "main": "./src/trout",
     "license": "MIT",
     "description": "Semantic Node router, with nested groups and organized parameters.",
