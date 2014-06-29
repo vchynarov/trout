@@ -5,7 +5,8 @@
     "license": "MIT",
     "description": "Semantic Node router, with nested groups and organized parameters.",
     "devDependencies": {
-        "request": "*"
+        "request": "*",
+        "nodeunit": "*"
     },
     "repository": {
         "type": "git",
