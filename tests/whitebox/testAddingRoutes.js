@@ -2,10 +2,11 @@ var router = require('../../src/trout');
 var crypto = require('crypto');
 
 testHandlerGenerator = function(token) {
-        return new function(req, res) {
-             this.token = token;
-        }
+    var testHandler = function(req, res) {
+        this.token = token;
     };
+    return new testHandler;
+};
         
 module.exports = {
     setUp : function(callback) {

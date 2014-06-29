@@ -1,4 +1,4 @@
-(https://travis-ci.org/vchynarov/trout.svg?branch=master)
+[![Build Status](https://travis-ci.org/vchynarov/trout.svg?branch=master)](https://travis-ci.org/vchynarov/trout)
 
 # trout routing library for node.js #
 
