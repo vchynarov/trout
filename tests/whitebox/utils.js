@@ -43,8 +43,6 @@ var resetRouter = function() {
     router.routes.PUT = {}; 
 }
 
-
-
 module.exports.testHandlerGenerator = testHandlerGenerator;
 module.exports.createToken = createToken;
 module.exports.resetRouter = resetRouter;
