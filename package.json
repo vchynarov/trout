@@ -14,7 +14,7 @@
     },
 
     "scripts": {
-        "test": "nodeunit tests/whitebox"
+        "test": "nodeunit tests/whitebox/test*"
     },
     "keywords": [
         "router",

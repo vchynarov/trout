@@ -1,7 +1,10 @@
 var router = require('../../src/trout');
+var utils = require('./utils');
+
 
 var testMatchingRoutes = {
     setUp : function(callback) {
+        console.log(router);
         callback();
     },
     
@@ -10,7 +13,7 @@ var testMatchingRoutes = {
     },
 
     test1: function(test) {
-        test.equal(1, 1);
+        router.put('/headput', utils.testHandlerGenerator('asdf'));
         test.done();
     }
 }
