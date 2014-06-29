@@ -13,7 +13,7 @@
     },
 
     "scripts": {
-        "test": "node tests/test.js"
+        "test": "./tests/test-runner.sh"
     },
     "keywords": [
         "router",

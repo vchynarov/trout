@@ -152,7 +152,7 @@ var TestCounter = function(totalTests) {
     this.totalTests = totalTests;
 };
 
-TestCounter.prototype = new events.EventEmitter;
+TestCounter.prototype = new events.EventEmitter();
 
 TestCounter.prototype.increment = function(testStatus) {
     if (testStatus) {

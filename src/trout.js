@@ -1,28 +1,30 @@
 function Trout() {
+    // The route names are named in this naming scheme
+    // because of removing keyword errors (with JavaScript's get and delete keywords).
     this.routes = {
-        get  : {},
-        post : {},
-        put  : {},
-        del  : {}
-    }
+        GET : {},
+        POST: {},
+        PUT  : {},
+        DELETE  : {}
+    };
     this.groups = [];
     this.groupPath = "";
 }
 
 Trout.prototype.get = function (route, callback) {
-    this.routes.get[this.groupPath + route] = callback;
+    this.routes.GET[this.groupPath + route] = callback;
 };
 
 Trout.prototype.post = function (route, callback) {
-    this.routes.post[this.groupPath + route] = callback;
+    this.routes.POST[this.groupPath + route] = callback;
 };
 
 Trout.prototype.put = function (route, callback) {
-    this.routes.put[this.groupPath + route] = callback;
+    this.routes.PUT[this.groupPath + route] = callback;
 };
 
-Trout.prototype.del = function (route, callback) {
-    this.routes.del[this.groupPath + route] = callback;
+Trout.prototype.delete = function (route, callback) {
+    this.routes.DELETE[this.groupPath + route] = callback;
 };
 
 Trout.prototype.errorPage404 = function (req, res) {
@@ -54,16 +56,9 @@ Trout.prototype.pass = function (req, res) {
         __r: {},
         __c: {}
     };
-    var methodMap = {
-        "GET": "get",
-        "POST": "post",
-        "DELETE": "del",
-        "PUT": "put"
-    };
-    var method = methodMap[req.method];
-    matchedRoute = this.existsRoute(req.url, method);
+    matchedRoute = this.existsRoute(req.url, req.method);
     if (matchedRoute) {
-        viewFunction = this.routes[method][matchedRoute.routeName];
+        viewFunction = this.routes[req.method][matchedRoute.routeName];
         routeParameters = matchedRoute.routeParameters;
     }
     
